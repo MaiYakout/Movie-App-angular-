@@ -1,0 +1,23 @@
+@import "../../../styles/colors";
+:host ::ng-deep {
+  /* to make this style apply */
+  .p-tabview-nav {
+    justify-content: center;
+  }
+  .p-image-preview-container > img {
+    margin-bottom: 10px;
+  }
+}
+.poster {
+  max-width: 100%;
+}
+.stat {
+  display: flex;
+  margin-bottom: 15px;
+  .label {
+    width: 150px;
+  }
+  .val {
+    color: $yellow;
+  }
+}

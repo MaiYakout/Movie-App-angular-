@@ -1,0 +1,132 @@
+<ng-container *ngIf="movie">
+  <app-slider [items]="[movie]" [isBanner]="true"></app-slider>
+  <p-tabView>
+    <p-tabPanel header="Overview">
+      <div class="row">
+        <div class="col-md-3">
+          <img
+            class="poster"
+            [src]="imageSizes.medium + movie.poster_path"
+            alt="movie.title"
+          />
+        </div>
+        <div class="col-md-6">
+          <h3>Overview</h3>
+          <p>{{ movie.overview }}</p>
+          <div class="stat">
+            <div class="label">Release Date:</div>
+            <div class="val">{{ movie.release_date | date: "dd/MM/YYYY" }}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Revenue:</div>
+            <div class="val">{{ movie.revenue | currency }}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Language:</div>
+            <div class="val">{{ movie.original_language | uppercase }}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Duration:</div>
+            <div class="val">{{ movie.runtime }} min</div>
+          </div>
+          <div class="stat">
+            <div class="label">Status:</div>
+            <div class="val">{{ movie.status }}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Genres:</div>
+            <div class="val" *ngFor="let genre of movie.genres">
+              <p>{{ genre.name }} /</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Videos">
+      <div class="row">
+        <ng-container *ngFor="let video of videos">
+          <div class="col-md-3 col-sm-12">
+            <app-video-embed
+              [key]="video.key"
+              [site]="video.site"
+            ></app-video-embed>
+          </div>
+        </ng-container>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Photos">
+      <div class="row" *ngIf="photos">
+        <ng-container *ngFor="let photo of photos.backdrops">
+          <div class="col-md-4">
+            <p-image
+              class="movie-images"
+              [src]="imageSizes.large + photo.file_path"
+              alt="Image"
+              width="100%"
+              [preview]="true"
+            ></p-image>
+          </div>
+        </ng-container>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+  <!-- Crew -->
+  <p-carousel
+    *ngIf="credits"
+    [value]="credits.cast"
+    styleClass="custom-carousel"
+    [numVisible]="5"
+    [numScroll]="1"
+    [circular]="true"
+    [autoplayInterval]="3000"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template pTemplate="header">
+      <h5>Cast of Movie</h5>
+    </ng-template>
+    <ng-template let-credit pTemplate="item">
+      <div class="product-item">
+        <div class="product-item-content">
+          <div class="p-mb-3">
+            <img
+              [src]="imageSizes.smallProfile + credit.profile_path"
+              [alt]="credit.name"
+              class="product-image"
+            />
+          </div>
+          <div>
+            <h5 class="p-mb-1">{{ credit.name }}</h5>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+  <!--similar movies-->
+  <p-carousel
+    [value]="similar"
+    [numVisible]="5"
+    [numScroll]="3"
+    [circular]="false"
+    [responsiveOptions]="responsiveOptions"
+  >
+    <ng-template pTemplate="header">
+      <h5>similar Movies</h5>
+    </ng-template>
+    <ng-template let-movie pTemplate="item">
+      <div class="product-item">
+        <div class="product-item-content">
+          <a class="p-mb-3" [routerLink]="'/movie/' + movie.id">
+            <img
+              [src]="imageSizes.smallProfile + movie.poster_path"
+              [alt]="movie.title"
+              class="product-image"
+            />
+          </a>
+          <div>
+            <h4 class="p-mb-1">{{ movie.title }}</h4>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</ng-container>

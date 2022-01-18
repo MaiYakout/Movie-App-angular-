@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="genres">
+    <h2>Movies Genres</h2>
+    <div class="row">
+      <div *ngFor="let genre of genres" class="col-lg-2 col-md-3 col-sm-6">
+        <a [routerLink]="'/movies/genres/' + genre.id"> {{ genre.name }}</a>
+      </div>
+    </div>
+  </div>
+</div>
